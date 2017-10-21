@@ -11,8 +11,8 @@ $(function(){
   var ctx = canvas[0].getContext('2d');
   var color = '#ff00ff';
   cf.on('mousemove',function(){
-    canvas[0].width = cf.css('width').split('px')[0];
-    canvas[0].height = cf.css('height').split('px')[0];
+    ctx.canvas.width = cf.css('width').split('px')[0];
+    ctx.canvas.height = cf.css('height').split('px')[0];
   })
   var actions = {
     'line':{
