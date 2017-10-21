@@ -3,6 +3,8 @@ $(function(){
   var buttonbar = $('#actionButtons');
   var cf = $('#canvas-frame').css({
     border:'1px solid black',
+    resize:'both',
+    overflow:'hidden',
   });
   var ctx = canvas[0].getContext('2d');
   var color = '#ff00ff';
