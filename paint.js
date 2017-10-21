@@ -7,7 +7,7 @@ $(function(){
   var ctx = canvas[0].getContext('2d');
   var color = '#ff00ff';
   cf.onresize(function(){
-    canvas.width(cf.width());
+    canvas.width(cf.css('width'));
   })
   var actions = {
     'line':{
