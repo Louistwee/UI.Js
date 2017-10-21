@@ -6,7 +6,7 @@ $(function(){
   });
   var ctx = canvas[0].getContext('2d');
   var color = '#ff00ff';
-  cf.onResize(function(){
+  cf.on('mousemove',function(){
     canvas.width(cf.css('width'));
   })
   var actions = {
