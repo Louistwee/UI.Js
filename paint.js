@@ -5,6 +5,8 @@ $(function(){
     border:'1px solid black',
     resize:'both',
     overflow:'hidden',
+    width:200,
+    height:200,
   });
   var ctx = canvas[0].getContext('2d');
   var color = '#ff00ff';
