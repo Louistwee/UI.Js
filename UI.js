@@ -19,27 +19,17 @@ window.UI = (function(window){
     getURL:function(URL){
       return this.basePath + URL;
     },
-    //Load a script
-    /*loadScript:function(URL,callback){
-      var script = document.createElement('script');
-      var anotherscript = document.getElementsByTagName('script')[0];
-      var once = false;
-      script.type = 'text/javascript';
-      script.src = URL;
-      script.onload = script.onreadystatechange = function(){
-        if ( !once && (!this.readyState || this.readyState == 'complete') ){
-          once = true;
-          if(callback){
-            callback();
-          }
-        }
+    subObject:function(param){
+      this[param.name] = param.main;
+      var sub = this[param.name];
+      for(var i in param.properties){
+        sub[i] = param.properties[i];
       }
-      anotherscript.parentNode.insertBefore(script, anotherscript);
-    },*/
-    //combination of getURL and loadScript
-    loadURL:function(URL,callback){
-      this.loadScript(this.getURL(URL),callback)
-    },
+      sub.__proto__ = this;
+      sub.parent = this;
+      sub.name = param.name;
+      return sub;
+    }
     //list of all functions that are appended when an object is created;
       //get/load an object from the UI 
       get:function(objectName){
