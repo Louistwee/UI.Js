@@ -52,8 +52,8 @@ window.UI = (function(window){
         l()
         if(this.paused){
           this.pauseList.push({fn:this.get,param:objectName});
-          return this;
           l('a')
+          return this;
         }
         l('b');
         if(this[objectName]){
@@ -102,7 +102,7 @@ window.UI = (function(window){
         l('lS')
         if(param.objectPath === 'say'){
           setTimout(function(){
-            l('timeout)
+            l('timeout')
             th.say = function(param){
               l('say')
               alert(param.word);
