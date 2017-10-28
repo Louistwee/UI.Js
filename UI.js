@@ -29,7 +29,7 @@ window.UI = (function(window){
       sub.parent = this;
       sub.name = param.name;
       return sub;
-    }
+    },
     //list of all functions that are appended when an object is created;
       //get/load an object from the UI 
       get:function(objectName){
