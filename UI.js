@@ -45,7 +45,7 @@ window.UI = (function(window){
             th.start();
           }
           this.loadScript({
-            objectPath:objectName+'.js',
+            objectName:objectName,
             callback:callback,
           });
           return this.pause();
@@ -60,7 +60,7 @@ window.UI = (function(window){
               th.start();
             }
             th.loadScript({
-              objectPath:fnName+'.js',
+              objectName:fnName,
               callback:callback,
             });
             th.pause();
@@ -89,6 +89,17 @@ window.UI = (function(window){
         }
         return this;
       },
+      name:'UI',
+    getPath:function(){
+      if(this.parent){
+        this.parent.getPath() + '/' + this.name;
+      }else{
+        return this.name;
+      }
+    },
+    getFullPath:function(param){
+      return this.basePath + '/' + this.getPath() + '/' + param.objectName + '.js';
+    },
       //this is a test fn
       loadScript:function(param){
         var th = this;
@@ -96,7 +107,7 @@ window.UI = (function(window){
         var anotherscript = document.getElementsByTagName('script')[0];
         var once = false;
         script.type = 'text/javascript';
-        script.src = 'UI/' + param.objectPath;
+        script.src = this.getFullPath(param);
         script.onload = script.onreadystatechange = function(){
           if ( !once && (!this.readyState || this.readyState == 'complete') ){
             once = true;
