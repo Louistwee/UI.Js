@@ -19,7 +19,7 @@ window.UI = (function(window){
     getURL:function(URL){
       return this.basePath + URL;
     },
-    subObject:function(param){
+    addSubObject:function(param){
       this[param.name] = param.main;
       var sub = this[param.name];
       for(var i in param.properties){
