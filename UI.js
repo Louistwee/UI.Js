@@ -108,15 +108,22 @@ window.UI = (function(window){
       //this is a test fn
       loadScript:function(param){
         var th = this;
-        if(param.objectPath === 'say.js'){
-          setTimeout(function(){
-            th.say = function(param){
-              alert(param.word);
+        var script = document.createElement('script');
+        var anotherscript = document.getElementsByTagName('script')[0];
+        var once = false;
+        script.type = 'text/javascript';
+        script.src = 'UI/' + param.objectPath;
+        script.onload = script.onreadystatechange = function(){
+          if ( !once && (!this.readyState || this.readyState == 'complete') ){
+            once = true;
+            if(param.callback){
+              param.callback(th);
             }
-            param.callback(th);
-          },1000)
+          }
         }
-      }
+        anotherscript.parentNode.insertBefore(script, anotherscript);
+      },
+      
     },
   }
   return UI;
