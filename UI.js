@@ -1,4 +1,4 @@
-var logindex;
+var logindex = 0;
 function l(a){
   console.log((logindex++) + a);
 }
