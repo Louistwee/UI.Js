@@ -54,8 +54,8 @@ window.UI = (function(window){
           return this;
         }
         if(this[objectName]){
-          //return this[objectName];
-          return this;
+          return this[objectName];
+          //return this;
         }else{
           function callback(th){
             th.start();
@@ -69,14 +69,24 @@ window.UI = (function(window){
       },
       //use .run() if you want ot add the fn to the pauseList otherwise when you want to run it directly
       run:function(fnName,param){
+        if(!this[fnName]){
+          function callback(th){
+            th.start();
+          }
+          this.loadScript({
+            objectPath:fnName+'.js',
+            callback:callback,
+          });
+          this.pause();
+        }
         if(this.paused){
           var pausFn = function(param){
             return this[fnName](param);
           }
           this.pauseList.push({fn:pausFn,param:param});
-          return this;
+        }else{
+          this[fnName](param);
         }
-        this[fnName](param);
         return this;
       },
       pause:function(){
@@ -109,4 +119,4 @@ window.UI = (function(window){
   return UI;
 })(window);
 //example.js
-UI.createobject().get('say').run('say',{word:'hoi'});
+UI.createobject().run('say',{word:'hoi'});
