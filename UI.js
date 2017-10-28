@@ -77,9 +77,8 @@ window.UI = (function(window){
             objectPath:fnName+'.js',
             callback:callback,
           });
-          this.pause();
-        }
-        if(this.paused){
+          this.pause().run(fnName,param);
+        }else if(this.paused){
           var pausFn = function(param){
             return this[fnName](param);
           }
