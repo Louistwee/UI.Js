@@ -122,5 +122,5 @@ window.UI = (function(window){
   }
   return UI;
 })(window);
-//example.js
+//example
 UI.createobject().run('say',{word:'hi1'}).run('say',{word:'hi2'});
