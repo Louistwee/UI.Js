@@ -38,7 +38,7 @@ window.UI = (function(window){
     },
     //list of all functions that are appended when an object is created;
     createobject:function(){
-      a = {};
+      var a = {};
       a.__proto__ = this.fn;
       return a;
     },
@@ -101,4 +101,4 @@ window.UI = (function(window){
   return UI;
 })(window);
 //example.js
-something.get('say').run('say',{word:'hoi'});
+UI.createobject().get('say').run('say',{word:'hoi'});
