@@ -1,7 +1,7 @@
 //Create the base object
 window.UI = (function(window){
   var UI = {
-    //get thebasePath of UI.js 
+    //get the basePath of UI.js 
     basePath:(function(window){
       var scripts = document.getElementsByTagName('script');
       for (var i = 0; i < scripts.length; i++) {
@@ -16,33 +16,85 @@ window.UI = (function(window){
       return this.basePath + URL;
     },
     //Load a script
-    loadScript:function(URL){
-      if(document.readyState){
-        //when the document if fully loaded
-        var script = document.createElement('script');
-        script.setAttribute("type","text/javascript");
-        script.setAttribute("src", URL);
-        //apend the script element
-        document.getElementsByTagName("head")[0].appendChild(script);
-      }else{
-        //when the document is still loading
-        document.write('<script src="'+URL+'" type="text/javascript></script>"')
+    loadScript:function(URL,callback){
+      var script = document.createElement('script');
+      var anotherscript = document.getElementsByTagName('script')[0];
+      var once = false;
+      script.type = 'text/javascript';
+      script.src = URL;
+      script.onload = script.onreadystatechange = function(){
+        if ( !once && (!this.readyState || this.readyState == 'complete') ){
+          once = true;
+          if(callback){
+            callback();
+          }
+        }
       }
+      anotherscript.parentNode.insertBefore(script, anotherscript);
     },
     //combination of getURL and loadScript
-    loadURL:function(URL){
-      this.loadScript(this.getURL(URL))
+    loadURL:function(URL,callback){
+      this.loadScript(this.getURL(URL),callback)
     },
-    //add an subObject script to UI
-    addSubObject:function(){
-      
+    //list of all functions that are appended when an object is created;
+    fn:{
+      //get/load an object from the UI 
+      get:function(objectName){
+        if(this.paused){
+          this.pauseList.push({fn:this.get,param:objectName});
+          return;
+        }
+        if(this[objectName]){
+          return this[objectName];
+          return this;
+        }else{
+          function callback(th){
+            this.start();
+          }
+          this.loadScript({
+            objectPath:objectName+'.js',
+            callback:callback,
+          });
+          return this.pause();
+        }
+      },
+      //use .run() if you want ot add the fn to the pauseList otherwise when you want to run it directly
+      run:function(fnName,param){
+        if(this.paused){
+          this.pauseList.push({fn:this[fnName],param:param});
+          return;
+        }
+        this[fnName](param);
+      },
+      pause:function(){
+        this.paused = true;
+        this.pauseList = [];
+        return this;
+      },
+      start:function(){
+        this.paused = false;
+        while (!(!this.pauseList.length||this.paused)) {
+          var method = this.pauseList.splice(0, 1)[0];
+          method.fn.call(this,method.param)
+        }
+        return this;
+      },
+      //this is a test fn
+      loadScript:function(param){
+        var th = this;
+        if(param.objectPath === 'say'){
+          setTimout(function(){
+            th.say = function(param){
+              alert(param.word);
+            }
+            param.callback(th);
+          },1000)
+        }
+      }
     },
-    get:function(){
-      
-    },
-    example:function(){
-      
-    };
   }
   return UI;
-})(window)
+})(window);
+UI.get('example').run()
+//example.js
+something.get('say').run('say',{word:'hoi'});
