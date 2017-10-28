@@ -101,7 +101,7 @@ window.UI = (function(window){
         var th = this;
         l('lS')
         if(param.objectPath === 'say.js'){
-          setTimout(function(){
+          setTimeout(function(){
             l('timeout')
             th.say = function(param){
               l('say')
