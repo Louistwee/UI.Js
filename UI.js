@@ -1,3 +1,7 @@
+var logindex;
+function l(a){
+  console.log((logindex++) + a);
+}
 //Create the base object
 window.UI = (function(window){
   var UI = {
@@ -45,15 +49,21 @@ window.UI = (function(window){
     fn:{
       //get/load an object from the UI 
       get:function(objectName){
+        l()
         if(this.paused){
           this.pauseList.push({fn:this.get,param:objectName});
-          return;
+          return this;
+          l('a')
         }
+        l('b');
         if(this[objectName]){
+          l('ba')
           //return this[objectName];
           return this;
         }else{
+          l('bb')
           function callback(th){
+            l('calbackstart')
             this.start();
           }
           this.loadScript({
@@ -77,8 +87,10 @@ window.UI = (function(window){
         return this;
       },
       start:function(){
+        l('start')
         this.paused = false;
         while (!(!this.pauseList.length||this.paused)) {
+          l('while')
           var method = this.pauseList.splice(0, 1)[0];
           method.fn.call(this,method.param)
         }
@@ -87,9 +99,12 @@ window.UI = (function(window){
       //this is a test fn
       loadScript:function(param){
         var th = this;
+        l('lS')
         if(param.objectPath === 'say'){
           setTimout(function(){
+            l('timeout)
             th.say = function(param){
+              l('say')
               alert(param.word);
             }
             param.callback(th);
