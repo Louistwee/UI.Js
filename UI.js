@@ -110,5 +110,3 @@ window.UI = (function(window){
   }
   return UI;
 })(window);
-//example
-UI.run('say',{word:'hi1'}).run('say',{word:'hi2'});
