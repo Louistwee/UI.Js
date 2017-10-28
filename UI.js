@@ -37,6 +37,11 @@ window.UI = (function(window){
       this.loadScript(this.getURL(URL),callback)
     },
     //list of all functions that are appended when an object is created;
+    createobject:function(){
+      a = {};
+      a.__proto__ = this.fn;
+      return a;
+    },
     fn:{
       //get/load an object from the UI 
       get:function(objectName){
@@ -95,6 +100,5 @@ window.UI = (function(window){
   }
   return UI;
 })(window);
-UI.get('example').run()
 //example.js
 something.get('say').run('say',{word:'hoi'});
