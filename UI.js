@@ -118,4 +118,4 @@ window.UI = (function(window){
   return UI;
 })(window);
 //example.js
-UI.createobject().run('say',{word:'hoi'});
+UI.createobject().run('say',{word:'hi1'}).run('say',{word:'hi2'});
