@@ -80,9 +80,10 @@ window.UI = (function(window){
             return this[fnName](param);
           }
           this.pauseList.push({fn:pausFn,param:param});
-          return;
+          return this;
         }
         this[fnName](param);
+        return this;
       },
       pause:function(){
         this.paused = true;
@@ -102,12 +103,9 @@ window.UI = (function(window){
       //this is a test fn
       loadScript:function(param){
         var th = this;
-        l('lS')
         if(param.objectPath === 'say.js'){
           setTimeout(function(){
-            l('timeout')
             th.say = function(param){
-              l('say')
               alert(param.word);
             }
             param.callback(th);
