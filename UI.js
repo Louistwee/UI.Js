@@ -88,7 +88,7 @@ window.UI = (function(window){
         if(this.paused){
           this.pauseList.push({fn:pauseFn,param:param});
         }else{
-          this[fnName](param);
+          pauseFn;
         }
         pauseFn();
         return this;
