@@ -1,4 +1,5 @@
 # UI
-- [ ] Build beautifull websites and editors.
+- [ ] Build beautiful websites and editors.
 - [ ] Create your own elements.
-- [ ] Recieve data from webSockets.
+- [ ] Receive data from webSockets.
+- [ ] don't load unnecessary Js files.
