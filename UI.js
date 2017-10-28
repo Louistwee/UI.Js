@@ -20,7 +20,7 @@ window.UI = (function(window){
       return this.basePath + URL;
     },
     //Load a script
-    loadScript:function(URL,callback){
+    /*loadScript:function(URL,callback){
       var script = document.createElement('script');
       var anotherscript = document.getElementsByTagName('script')[0];
       var once = false;
@@ -35,18 +35,12 @@ window.UI = (function(window){
         }
       }
       anotherscript.parentNode.insertBefore(script, anotherscript);
-    },
+    },*/
     //combination of getURL and loadScript
     loadURL:function(URL,callback){
       this.loadScript(this.getURL(URL),callback)
     },
     //list of all functions that are appended when an object is created;
-    createobject:function(){
-      var a = {};
-      a.__proto__ = this.fn;
-      return a;
-    },
-    fn:{
       //get/load an object from the UI 
       get:function(objectName){
         if(this.paused){
@@ -123,10 +117,8 @@ window.UI = (function(window){
         }
         anotherscript.parentNode.insertBefore(script, anotherscript);
       },
-      
-    },
   }
   return UI;
 })(window);
 //example
-UI.createobject().run('say',{word:'hi1'}).run('say',{word:'hi2'});
+UI.run('say',{word:'hi1'}).run('say',{word:'hi2'});
