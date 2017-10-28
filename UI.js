@@ -76,7 +76,10 @@ window.UI = (function(window){
       //use .run() if you want ot add the fn to the pauseList otherwise when you want to run it directly
       run:function(fnName,param){
         if(this.paused){
-          this.pauseList.push({fn:this[fnName],param:param});
+          var pausFn = function(param){
+            return this[fnName](param);
+          }
+          this.pauseList.push({fn:pausFn,param:param});
           return;
         }
         this[fnName](param);
@@ -92,7 +95,7 @@ window.UI = (function(window){
         while (!(!this.pauseList.length||this.paused)) {
           l('while')
           var method = this.pauseList.splice(0, 1)[0];
-          method.fn.call(this,method.param)
+          var answ = method.fn.call(this,method.param);
         }
         return this;
       },
