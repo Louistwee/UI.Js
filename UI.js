@@ -20,7 +20,7 @@ window.UI = (function(window){
       return this.basePath + URL;
     },
     addSubObject:function(param){
-      this[param.name] = param.main;
+      this[param.name] = param.mainFn;
       var sub = this[param.name];
       for(var i in param.properties){
         sub[i] = param.properties[i];
