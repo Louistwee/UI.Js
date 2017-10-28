@@ -69,23 +69,28 @@ window.UI = (function(window){
       },
       //use .run() if you want ot add the fn to the pauseList otherwise when you want to run it directly
       run:function(fnName,param){
-        if(!this[fnName]){
-          function callback(th){
-            th.start();
+        var th = this;
+        var pauseFn = function(){
+          if(!th[fnName]){
+            function callback(th){
+              th.start();
+            }
+            th.loadScript({
+              objectPath:fnName+'.js',
+              callback:callback,
+            });
+            th.pause();
+            th.pauseList.splice(0,0,{fn:pauseFn,param:param})
+          }else{
+            return th[fnName](param);
           }
-          this.loadScript({
-            objectPath:fnName+'.js',
-            callback:callback,
-          });
-          this.pause().run(fnName,param);
-        }else if(this.paused){
-          var pausFn = function(param){
-            return this[fnName](param);
-          }
-          this.pauseList.push({fn:pausFn,param:param});
+        }
+        if(this.paused){
+          this.pauseList.push({fn:pauseFn,param:param});
         }else{
           this[fnName](param);
         }
+        pauseFn();
         return this;
       },
       pause:function(){
