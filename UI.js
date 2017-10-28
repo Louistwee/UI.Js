@@ -100,7 +100,7 @@ window.UI = (function(window){
       loadScript:function(param){
         var th = this;
         l('lS')
-        if(param.objectPath === 'say'){
+        if(param.objectPath === 'say.js'){
           setTimout(function(){
             l('timeout')
             th.say = function(param){
