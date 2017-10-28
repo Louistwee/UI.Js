@@ -64,7 +64,7 @@ window.UI = (function(window){
           l('bb')
           function callback(th){
             l('calbackstart')
-            this.start();
+            th.start();
           }
           this.loadScript({
             objectPath:objectName+'.js',
