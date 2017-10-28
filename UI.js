@@ -49,21 +49,15 @@ window.UI = (function(window){
     fn:{
       //get/load an object from the UI 
       get:function(objectName){
-        l()
         if(this.paused){
           this.pauseList.push({fn:this.get,param:objectName});
-          l('a')
           return this;
         }
-        l('b');
         if(this[objectName]){
-          l('ba')
           //return this[objectName];
           return this;
         }else{
-          l('bb')
           function callback(th){
-            l('calbackstart')
             th.start();
           }
           this.loadScript({
@@ -91,10 +85,8 @@ window.UI = (function(window){
         return this;
       },
       start:function(){
-        l('start')
         this.paused = false;
         while (!(!this.pauseList.length||this.paused)) {
-          l('while')
           var method = this.pauseList.splice(0, 1)[0];
           var answ = method.fn.call(this,method.param);
         }
