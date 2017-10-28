@@ -50,7 +50,7 @@ window.UI = (function(window){
           return;
         }
         if(this[objectName]){
-          return this[objectName];
+          //return this[objectName];
           return this;
         }else{
           function callback(th){
