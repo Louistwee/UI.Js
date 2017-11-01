@@ -153,7 +153,7 @@ window.UI = (function (window) {
           }
         }
       };
-      anotherscript.parentNode.insertBefore(script, anotherscript);
+      anotherScript.parentNode.insertBefore(script, anotherScript);
     },
   };
   return UI;
