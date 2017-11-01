@@ -106,6 +106,7 @@ window.UI = (function (window) {
         this.fn(function(){
           return this[name](param);
         })
+        return this;
       },
       /**
       * @function UI.$fn.pause
