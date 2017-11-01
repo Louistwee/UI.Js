@@ -54,11 +54,12 @@ window.UI = (function (window) {
         }else if (objectName in this.object) {
           this.object = this.object[objectName];
         }else{
-          var callback = function (th) {
+          var th = this;
+          var callback = function () {
             th.start();
           };
-          this.loadScript({
-            objectName: objectName,
+          UI.loadScript({
+            url: UI.basePath + this.object.path + objectName + 'js',
             callback: callback,
           });
           this.pause();
@@ -129,27 +130,7 @@ window.UI = (function (window) {
         return this;
       },
     },
-    name: 'UI',
-    /**
-    * @function UI.getPath();
-    * This fuction returns the Path
-    * @return {string} path;
-    */
-    getPath: function () {
-      if (this.parent) {
-        return this.parent.getPath() + '/' + this.name;
-      } else {
-        return this.name;
-      }
-    },
-    /**
-    * @function UI.getFullPath();
-    * This fuction returns the Full Path
-    * @return {string} path;
-    */
-    getFullPath: function (param) {
-      return this.basePath + '/' + this.getPath() + '/' + param.objectName + '.js';
-    },
+    path: 'UI',
     /**
     * @function UI.getFullPath();
     * This fuction loads a script;
@@ -160,15 +141,15 @@ window.UI = (function (window) {
     loadScript: function (param) {
       var th = this;
       var script = document.createElement('script');
-      var anotherscript = document.getElementsByTagName('script') [0];
-      var once = false;
+      var anotherScript = document.getElementsByTagName('script') [0];
       script.type = 'text/javascript';
-      script.src = this.getFullPath(param);
+      script.src = param.url;
       script.onload = script.onreadystatechange = function () {
         if (!once && (!this.readyState || this.readyState == 'complete')) {
-          once = true;
           if (param.callback) {
-            param.callback(th);
+            setInterval(function(){
+              param.callback();
+            },0)
           }
         }
       };
