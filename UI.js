@@ -146,7 +146,7 @@ window.UI = (function (window) {
       script.type = 'text/javascript';
       script.src = param.url;
       script.onload = script.onreadystatechange = function () {
-        if (!once && (!this.readyState || this.readyState == 'complete')) {
+        if (!this.readyState || this.readyState == 'complete') {
           if (param.callback) {
             setInterval(function(){
               param.callback();
