@@ -59,7 +59,7 @@ window.UI = (function (window) {
             th.start();
           };
           UI.loadScript({
-            url: UI.basePath + this.object.path + objectName + 'js',
+            url: UI.basePath + this.object.path + objectName + '.js',
             callback: callback,
           });
           this.pause();
