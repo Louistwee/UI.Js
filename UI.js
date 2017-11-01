@@ -28,9 +28,9 @@ window.UI = (function (window) {
     * UI.test = {test:function(a){return a}};
     * @return {object} The object or this.
     */
-    $:function(){
+    $:function(obj){
       return {
-        object:UI,
+        object:obj ? obj : UI,
         paused:false,
         queue:[],
         __proto__:UI.$fn,
@@ -71,7 +71,7 @@ window.UI = (function (window) {
       * UI.$().get('test').fn(function(){this.name = 'World'})
       * UI.test.name //'World'
       * @param {function} callback This function is executed when the previous thing are loaded.
-      * - @this the object
+      * - @this object that you are manipulating (UI)
       * - @param {object} object the UI.$() object.
       * @return {this}
       */
@@ -82,69 +82,54 @@ window.UI = (function (window) {
             param: callback,
           });
         }else{
-          callback.call(this.object,this);
+          this.object = callback.call(this.object,this);
         }
         return this;
       },
       /**
-      * This function runs the callback when the loadrow is fully loaded.
-      * @param {function} callback This function is executed when the previous thing are loaded.
+      * This function runs a sub function of the selected object;
+      * @example
+      * UI.test = {test:function(param){alert(param.word)}};
+      * @example
+      * UI.$().get('test').run('test',{word:'World'});
+      * @param {string} name callback This function is executed when the previous thing are loaded.
+      * @param {object} param object that will be passed to the called function
       * @return {this}
       */
-      run: function (callback){
-        
+      run: function (name,param){
+        this.fn(function(){
+          return this[name](param);
+        })
+      },
+      /**
+      * This function pauses the row;
+      * @return {this}
+      */
+      pause: function () {
+        this.paused = true;
+        return this;
+      },
+      /**
+      * This function pauses the row;
+      * @return {this}
+      */
+      start: function () {
+        this.paused = false;
+        while (!(!this.pauseList.length || this.paused)) {
+          var method = this.pauseList.splice(0, 1) [0];
+          method.fn.call(this, method.param);
+        }
+        return this;
       },
     },
     //use .run() if you want ot add the fn to the pauseList otherwise when you want to run it directly
     //Todo: run may not load scripts
-    run: function (fnName, param) {
-      var th = this;
-      var pauseFn = function () {
-        if (!th[fnName]) {
-          var callback = function (th) {
-            th.start();
-          };
-          th.loadScript({
-            objectName: fnName,
-            callback: callback,
-          });
-          th.pause();
-          th.pauseList.splice(0, 0, {
-            fn: pauseFn,
-            param: param
-          });
-        } else {
-          return th[fnName](param);
-        }
-      };
-      if (this.paused) {
-        this.pauseList.push({
-          fn: pauseFn,
-          param: param
-        });
-      } else {
-        pauseFn();
-      }
-      return this;
-    },
     /**
     * This function pauses the UI
     * @return {object} The object or this.
     */
-    pause: function () {
-      this.paused = true;
-      this.pauseList = [
-      ];
-      return this;
-    },
-    start: function () {
-      this.paused = false;
-      while (!(!this.pauseList.length || this.paused)) {
-        var method = this.pauseList.splice(0, 1) [0];
-        var answ = method.fn.call(this, method.param);
-      }
-      return this;
-    },
+    
+    
     name: 'UI',
     getPath: function () {
       if (this.parent) {
