@@ -47,7 +47,7 @@ window.UI = (function (window) {
       */
       get: function (objectName) {
         if (this.paused) {
-          this.pauseList.push({
+          this.queue.push({
             fn: this.get,
             param: objectName,
           });
@@ -59,7 +59,7 @@ window.UI = (function (window) {
             th.start();
           };
           UI.loadScript({
-            url: UI.basePath + this.object.path + objectName + '.js',
+            url: UI.basePath + this.object.path + '/' + objectName + '.js',
             callback: callback,
           });
           this.pause();
@@ -82,7 +82,7 @@ window.UI = (function (window) {
       */
       fn: function (callback) {
         if (this.paused) {
-          this.pauseList.push({
+          this.queue.push({
             fn: this.get,
             param: callback,
           });
@@ -123,8 +123,8 @@ window.UI = (function (window) {
       */
       start: function () {
         this.paused = false;
-        while (!(!this.pauseList.length || this.paused)) {
-          var method = this.pauseList.splice(0, 1) [0];
+        while (!(!this.queue.length || this.paused)) {
+          var method = this.queue.splice(0, 1) [0];
           method.fn.call(this, method.param);
         }
         return this;
