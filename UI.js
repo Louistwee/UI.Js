@@ -83,7 +83,7 @@ window.UI = (function (window) {
       fn: function (callback) {
         if (this.paused) {
           this.queue.push({
-            fn: this.get,
+            fn: this.fn,
             param: callback,
           });
         }else{
