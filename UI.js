@@ -13,6 +13,7 @@ window.UI = (function (window) {
       return basePath;
     }) (window),
     /**
+    * @function UI.getURL
     * This function puts UI.baseURL and @param {string} path togheter.
     * @param {string} path A path relative to UI.js
     * @return {string} An url.
@@ -21,6 +22,7 @@ window.UI = (function (window) {
       return this.basePath + URL;
     },
     /**
+    * @function $
     * This function returns an object that can be used in a load row.
     * @example
     * UI.$().get('test').run('test',{test:'test'}).end(function(data){console.log(data)})
@@ -38,6 +40,7 @@ window.UI = (function (window) {
     },
     $fn:{
       /**
+      * @function UI.$fn.get
       * This function loads an subObject.
       * @param {string} objectName The name of the subObject.
       * @return {this}
@@ -63,6 +66,7 @@ window.UI = (function (window) {
         return this;
       },
       /**
+      * @function UI.$fn.fn
       * This function runs the callback when the pointer is there loaded.
       * @example
       * UI.test = {name:'Hello'};
@@ -87,6 +91,7 @@ window.UI = (function (window) {
         return this;
       },
       /**
+      * @function UI.$fn.run
       * This function runs a sub function of the selected object;
       * @example
       * UI.test = {test:function(param){alert(param.word)}};
@@ -102,6 +107,7 @@ window.UI = (function (window) {
         })
       },
       /**
+      * @function UI.$fn.pause
       * This function pauses the row;
       * @return {this}
       */
@@ -110,6 +116,7 @@ window.UI = (function (window) {
         return this;
       },
       /**
+      * @function UI.$fn.start
       * This function pauses the row;
       * @return {this}
       */
@@ -122,15 +129,12 @@ window.UI = (function (window) {
         return this;
       },
     },
-    //use .run() if you want ot add the fn to the pauseList otherwise when you want to run it directly
-    //Todo: run may not load scripts
-    /**
-    * This function pauses the UI
-    * @return {object} The object or this.
-    */
-    
-    
     name: 'UI',
+    /**
+    * @function UI.getPath();
+    * This fuction returns the Path
+    * @return {string} path;
+    */
     getPath: function () {
       if (this.parent) {
         return this.parent.getPath() + '/' + this.name;
@@ -138,10 +142,21 @@ window.UI = (function (window) {
         return this.name;
       }
     },
+    /**
+    * @function UI.getFullPath();
+    * This fuction returns the Full Path
+    * @return {string} path;
+    */
     getFullPath: function (param) {
       return this.basePath + '/' + this.getPath() + '/' + param.objectName + '.js';
     },
-    //this is a test fn
+    /**
+    * @function UI.getFullPath();
+    * This fuction loads a script;
+    * @param {object} param
+    * - @param {String} path the path
+    * - @param {function} callback the callback function
+    */
     loadScript: function (param) {
       var th = this;
       var script = document.createElement('script');
