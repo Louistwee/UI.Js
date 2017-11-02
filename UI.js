@@ -56,6 +56,7 @@ window.UI = (function (window) {
         }else{
           var th = this;
           var callback = function () {
+            th.object = th.object[objectName];
             th.start();
           };
           UI.loadScript({
