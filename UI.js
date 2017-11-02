@@ -105,7 +105,6 @@ window.UI = (function (window) {
       */
       run: function (name,param){
         this.fn(function(th){
-          console.log(th)
           return th.object[name](param);
         })
         return this;
