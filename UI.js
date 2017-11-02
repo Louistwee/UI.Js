@@ -150,7 +150,7 @@ window.UI = (function (window) {
       script.onload = script.onreadystatechange = function () {
         if (!this.readyState || this.readyState == 'complete') {
           if (param.callback) {
-            setInterval(function(){
+            setTimeout(function(){
               param.callback();
             },0)
           }
