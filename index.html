@@ -3,6 +3,6 @@
     <script src="UI.js"></script>
   </head>
   <body>
-    <button onclick="UI.$().get('say').run('say',{word:'Hello'}).run('say',{word:'World'});">Click Here!</button>
+    <button onclick="UI().get('loadScript').run('https://code.jquery.com/jquery-3.2.1.min.js').fn(function(obj){$('body').html('hoi'); return obj});">Click Here!</button>
   </body>
 </html>
