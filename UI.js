@@ -1,6 +1,6 @@
 //Create the base object
 window.UI = (function (window) {
-  var UI = {
+  var UIobj = {
     //get the basePath of UI.js 
     basePath: (function (window) {
       var scripts = document.getElementsByTagName('script');
@@ -12,152 +12,83 @@ window.UI = (function (window) {
       }
       return basePath;
     }) (window),
-    /**
-    * @function UI.getURL
-    * This function puts UI.baseURL and @param {string} path togheter.
-    * @param {string} path A path relative to UI.js
-    * @return {string} An url.
-    */
-    getURL: function (URL) {
-      return this.basePath + URL;
-    },
-    /**
-    * @function $
-    * This function returns an object that can be used in a load row.
-    * @example
-    * UI.$().get('test').run('test',{test:'test'}).end(function(data){console.log(data)})
-    * @example
-    * UI.test = {test:function(a){return a}};
-    * @return {object} The object or this.
-    */
-    $:function(obj){
-      return {
-        object:obj ? obj : UI,
-        paused:false,
-        queue:[],
-        __proto__:UI.$fn,
-      }
-    },
-    $fn:{
-      /**
-      * @function UI.$fn.get
-      * This function loads an subObject.
-      * @param {string} objectName The name of the subObject.
-      * @return {this}
-      */
-      get: function (objectName) {
-        if (this.paused) {
-          this.queue.push({
-            fn: this.get,
-            param: objectName,
-          });
-        }else if (objectName in this.object) {
-          this.object = this.object[objectName];
-        }else{
-          var th = this;
-          var callback = function () {
-            th.object = th.object[objectName];
-            th.start();
-          };
-          UI.loadScript({
-            url: UI.basePath + this.object.path + '/' + objectName + '.js',
-            callback: callback,
-          });
-          this.pause();
-        }
-        return this;
-      },
-      /**
-      * @function UI.$fn.fn
-      * This function runs the callback when the pointer is there loaded.
-      * @example
-      * UI.test = {name:'Hello'};
-      * UI.test.name //'Hello'
-      * @example
-      * UI.$().get('test').fn(function(){this.name = 'World'})
-      * UI.test.name //'World'
-      * @param {function} callback This function is executed when the previous thing are loaded.
-      * - @this object that you are manipulating (UI)
-      * - @param {object} object the UI.$() object.
-      * @return {this}
-      */
-      fn: function (callback) {
-        if (this.paused) {
-          this.queue.push({
-            fn: this.fn,
-            param: callback,
-          });
-        }else{
-          this.object = callback.call(this.object,this);
-        }
-        return this;
-      },
-      /**
-      * @function UI.$fn.run
-      * This function runs a sub function of the selected object;
-      * @example
-      * UI.test = {test:function(param){alert(param.word)}};
-      * @example
-      * UI.$().get('test').run('test',{word:'World'});
-      * @param {string} name callback This function is executed when the previous thing are loaded.
-      * @param {object} param object that will be passed to the called function
-      * @return {this}
-      */
-      run: function (name,param){
-        this.fn(function(th){
-          return th.object[name](param);
-        })
-        return this;
-      },
-      /**
-      * @function UI.$fn.pause
-      * This function pauses the row;
-      * @return {this}
-      */
-      pause: function () {
-        this.paused = true;
-        return this;
-      },
-      /**
-      * @function UI.$fn.start
-      * This function pauses the row;
-      * @return {this}
-      */
-      start: function () {
-        this.paused = false;
-        while (!(!this.queue.length || this.paused)) {
-          var method = this.queue.splice(0, 1) [0];
-          method.fn.call(this, method.param);
-        }
-        return this;
-      },
-    },
     path: 'UI',
     /**
-    * @function UI.getFullPath();
+    * @function UI.loadScript();
     * This fuction loads a script;
-    * @param {object} param
-    * - @param {String} path the path
-    * - @param {function} callback the callback function
+    * @param {object} src the src
+    * @return {Promise}
     */
-    loadScript: function (param) {
-      var th = this;
-      var script = document.createElement('script');
-      var anotherScript = document.getElementsByTagName('script') [0];
-      script.type = 'text/javascript';
-      script.src = param.url;
-      script.onload = script.onreadystatechange = function () {
-        if (!this.readyState || this.readyState == 'complete') {
-          if (param.callback) {
-            setTimeout(function(){
-              param.callback();
-            },0)
+    loadScript: function (src) {
+      return new Promise(function(resolve,reject){
+        var scriptElement = document.createElement('script');
+        var anotherScript = document.getElementsByTagName('script') [0];
+        scriptElement.type = 'text/javascript';
+        scriptElement.src = src;
+        scriptElement.onload = scriptElement.onreadystatechange = function () {
+          if (!this.readyState || this.readyState == 'complete') {
+            resolve();
+          }
+        };
+        anotherScript.parentNode.insertBefore(scriptElement, anotherScript);
+      });
+    },
+  };
+  var UI = function(obj,isPromise){
+    if(!obj){
+      obj = UI;
+    }
+    if(isPromise){
+      var pr = new Promise(obj);
+    }else{
+      var pr = new Promise(function(resolve,reject){
+        resolve(obj);
+      });
+    }
+    pr.__proto__.__proto__ = UI.prototype;
+    for(var i in obj.fn){
+      
+    }
+    return pr;
+  };
+  for(var i in UIobj){
+    UI[i] = UIobj[i];
+  }
+  UI.prototype.get = function(subObjectName){
+    return this.then(function(obj){
+      return UI(function(resolve,reject){
+        if(obj[subObjectName]){
+          resolve(obj[subObjectName]);
+        }else{
+          if(obj.path){
+            UI.loadScript(UI.basePath + '/' + obj.path + '/' + subObjectName + '.js').then(function(){
+              resolve(obj[subObjectName])
+            });
+          }else{
+            reject(obj);
           }
         }
-      };
-      anotherScript.parentNode.insertBefore(script, anotherScript);
-    },
+      },true);
+    })
+  };
+  UI.prototype.fn = function(fn){
+    return this.then(function(obj){
+      return UI(function(resolve,reject){
+        var result = fn(obj,resolve,reject);
+        console.log(result);
+        if(result){
+          console.log('result');
+          resolve(result);
+        }
+      },true);
+    })
+  };
+  UI.prototype.run = function(param){
+    return this.fn(function(obj){
+      var result = obj(param);
+      console.log(result);
+      return result;
+    })
   };
   return UI;
 }) (window); 
-
