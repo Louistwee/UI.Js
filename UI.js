@@ -56,15 +56,6 @@ window.UI = (function (window) {
   }
   UI.prototype.get = function(subObjectName){
     return this.then(function(obj){
-      if('promise' in obj){
-        var arr = [];
-        for(var i in obj){
-          arr.push(i);
-        }
-        if(arr.length == 1){
-          obj = obj['promise'];
-        }
-      }
       return UI(function(resolve,reject){
         if(obj[subObjectName]){
           resolve(obj[subObjectName]);
@@ -82,6 +73,15 @@ window.UI = (function (window) {
   };
   UI.prototype.fn = function(fn){
     return this.then(function(obj){
+      if('promise' in obj){
+        var arr = [];
+        for(var i in obj){
+          arr.push(i);
+        }
+        if(arr.length == 1){
+          obj = obj['promise'];
+        }
+      }
       return UI(function(resolve,reject){
         var result = fn(obj,resolve,reject);
         console.log(result);
