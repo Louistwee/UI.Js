@@ -77,8 +77,11 @@ window.UI = (function (window) {
         var result = fn(obj,resolve,reject);
         console.log(result);
         if(result){
-          console.log('result');
-          resolve(result);
+          if(result.then && typeof result.then === "function"){
+            resolve({promise:result})
+          }else{
+            resolve(result);
+          }
         }
       },true);
     })
