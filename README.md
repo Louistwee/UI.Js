@@ -15,8 +15,9 @@ Example:
 ```javascript
 UI()
   .get('YourFunctionThatYouWantToAppendToUI')
-  .run('TheParametersForInTheFunction')
+  .run('TheParametersForTheFunction')
   .fn(function(){
-    alert('this function is called after ".run()" \n you can also call it directly after .get()')
+    alert('this function is called after .run()'
+      + 'you can also call it directly after .get()')
   })
 ```
