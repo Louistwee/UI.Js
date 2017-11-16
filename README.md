@@ -4,7 +4,7 @@ This branch is a complete rework based on the promise constructor in most modern
 - [ ] Build beautiful websites and editors.
 - [ ] Create your own elements.
 - [ ] Receive data from webSockets.
-- [x] **Don't load unnecessary Js files.**
+- [X] **Don't load unnecessary Js files.**
 
 ## Don't load unnecessary Js files.
 
