@@ -84,7 +84,6 @@ window.UI = (function (window) {
       }
       return UI(function(resolve,reject){
         var result = fn(obj,resolve,reject);
-        console.log(result);
         if(result){
           if(result.then && typeof result.then === "function"){
             resolve({promise:result})
@@ -96,11 +95,37 @@ window.UI = (function (window) {
     })
   };
   UI.prototype.run = function(param){
-    return this.fn(function(obj){
+    return this.fn(function(obj,resolve,reject){
       var result = obj(param);
-      console.log(result);
-      return result;
+      return result ? result : obj;
     })
+  };
+  UI.prototype.get = function(subObjectName){//changing get to fn
+    return this.fn(function(obj,resolve,reject){
+      if(obj[subObjectName]){
+        resolve(obj[subObjectName]);
+      }else{
+        if(obj.path){
+          UI.loadScript(UI.basePath + '/' + obj.path + '/' + subObjectName + '.js').then(function(){
+            resolve(obj[subObjectName])
+          })['catch'](function(){
+          //still working here ------- when fails reject
+          });
+        }else{
+          reject(obj);
+        }
+      }
+    })
+  };
+  UI.subClass = function(){
+    return;
+  };
+  UI.subClass.prototype.get = function(subObjectName){
+    if(this[subObjectName]){
+      return UI(this,false).get(subObjectName);
+    }else{
+      //try while !reject
+    }
   };
   return UI;
 }) (window); 
