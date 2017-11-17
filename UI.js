@@ -19,17 +19,41 @@ window.UI = (function (window) {
     * @param {object} src the src
     * @return {Promise}
     */
-    loadScript: function (src) {
+    loadScript: function (src,testFn) {
       return new Promise(function(resolve,reject){
         var scriptElement = document.createElement('script');
         var anotherScript = document.getElementsByTagName('script') [0];
         scriptElement.type = 'text/javascript';
         scriptElement.src = src;
-        scriptElement.onload = scriptElement.onreadystatechange = function () {
-          if (!this.readyState || this.readyState == 'complete') {
-            resolve();
-          }
+        if(scriptElement.readyState){//IE
+          scriptElement.onreadystatechange = function () {
+            if (!this.readyState || this.readyState == 'complete') {
+              setTimeout(function(){
+                try{
+                  if(testFn && !testFn(scriptElement)){
+                    reject(scriptElement);
+                    return;
+                  }
+                  resolve(scriptElement);
+                }catch(err){
+                  reject(scriptElement);
+                }
+              },0) 
+            }
+          };
         };
+          scriptElement.onload = function () {
+            if(testFn){
+              if(!testFn(scriptElement)){
+                reject(scriptElement);
+                return;
+              }
+            }
+            resolve(scriptElement);
+          };
+          scriptElement.onerror = function() {
+            reject(scriptElement);
+          }
         anotherScript.parentNode.insertBefore(scriptElement, anotherScript);
       });
     },
@@ -109,7 +133,7 @@ window.UI = (function (window) {
           UI.loadScript(UI.basePath + '/' + obj.path + '/' + subObjectName + '.js').then(function(){
             resolve(obj[subObjectName])
           })['catch'](function(){
-          //still working here ------- when fails reject
+            //working here ----
           });
         }else{
           reject(obj);
@@ -124,7 +148,9 @@ window.UI = (function (window) {
     if(this[subObjectName]){
       return UI(this,false).get(subObjectName);
     }else{
-      //try while !reject
+      while(false){
+        //working here ----
+      }
     }
   };
   return UI;
