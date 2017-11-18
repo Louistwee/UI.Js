@@ -21,40 +21,46 @@ window.UI = (function (window) {
     */
     loadScript: function (src,testFn) {
       return new Promise(function(resolve,reject){
-        var scriptElement = document.createElement('script');
-        var anotherScript = document.getElementsByTagName('script') [0];
-        scriptElement.type = 'text/javascript';
-        scriptElement.src = src;
-        if(scriptElement.readyState){//IE
-          scriptElement.onreadystatechange = function () {
-            if (!this.readyState || this.readyState == 'complete') {
-              setTimeout(function(){
-                try{
-                  if(testFn && !testFn(scriptElement)){
+        try{
+          var scriptElement = document.createElement('script');
+          var anotherScript = document.getElementsByTagName('script') [0];
+          scriptElement.type = 'text/javascript';
+          if(scriptElement.onload === undefined || scriptElement.onerror === undefined){//IE
+            scriptElement.onreadystatechange = function () {
+              if (!this.readyState || this.readyState == 'complete') {
+                setTimeout(function(){
+                  try{
+                    if(testFn && !testFn(scriptElement)){
+                      reject(scriptElement);
+                      return;
+                    }
+                    resolve(scriptElement);
+                  }catch(err){
                     reject(scriptElement);
-                    return;
                   }
-                  resolve(scriptElement);
-                }catch(err){
-                  reject(scriptElement);
-                }
-              },0) 
-            }
-          };
-        };
-          scriptElement.onload = function () {
-            if(testFn){
-              if(!testFn(scriptElement)){
-                reject(scriptElement);
-                return;
+                },0) 
               }
+            };
+          }else{
+            scriptElement.onload = function () {
+              if(testFn){
+                if(!testFn(scriptElement)){
+                  reject(scriptElement);
+                  return;
+                }
+              }
+              resolve(scriptElement);
+            };
+            scriptElement.onerror = function() {
+              reject(scriptElement);
             }
-            resolve(scriptElement);
-          };
-          scriptElement.onerror = function() {
-            reject(scriptElement);
           }
-        anotherScript.parentNode.insertBefore(scriptElement, anotherScript);
+          let parentNode = anotherScript ? anotherScript.parentNode : document.head;
+          anotherScript.parentNode.insertBefore(scriptElement, anotherScript);
+          scriptElement.src = src;
+        }catch(err){
+          reject(err);
+        }
       });
     },
   };
@@ -130,10 +136,17 @@ window.UI = (function (window) {
         resolve(obj[subObjectName]);
       }else{
         if(obj.path){
-          UI.loadScript(UI.basePath + '/' + obj.path + '/' + subObjectName + '.js').then(function(){
+          var loadScriptPromsie = UI.loadScript(UI.basePath + '' + obj.path + '/' + subObjectName + '.js',function(){
+            if(obj[subObjectName]){
+              return true;
+            }
+            return false;
+          });
+          loadScriptPromsie.then(function(){
             resolve(obj[subObjectName])
-          })['catch'](function(){
-            //working here ----
+          });
+          loadScriptPromsie['catch'](function(){
+            reject(obj);
           });
         }else{
           reject(obj);
@@ -144,13 +157,35 @@ window.UI = (function (window) {
   UI.subClass = function(){
     return;
   };
+  UI.subClass.path = 'UI/subclass';
   UI.subClass.prototype.get = function(subObjectName){
+    var th = this;
     if(this[subObjectName]){
-      return UI(this,false).get(subObjectName);
+      return UI(th,false).get(subObjectName);
     }else{
-      while(false){
-        //working here ----
-      }
+      var proto = this.__proto__;
+      return UI(function(resolve,reject){
+        var loadProtoScript = function(){
+          let loadScriptPromsie = UI.loadScript(UI.basePath + '' + proto.constructor.path + '/prototype/' + subObjectName + '.js',function(){
+            if(th[subObjectName]){
+              return true;
+            }
+            return false;
+          });
+          loadScriptPromsie['catch'](function(){
+            proto = proto.__proto__;
+            if(proto === {}.__proto__){
+              reject();
+              return;
+            }
+            loadProtoScript();
+          });
+          loadScriptPromsie.then(function(){
+            resolve(th[subObjectName])
+          });
+        }
+        loadProtoScript();
+      },true)
     }
   };
   return UI;
