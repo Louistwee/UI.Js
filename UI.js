@@ -20,7 +20,47 @@ window.UI = (function (window) {
     * @return {Promise}
     */
     loadScript: function (src,testFn) {
-      return new Promise(function(resolve,reject){
+      if(!UI.loadScript.scripts){
+        UI.loadScript.scripts = {};
+      }
+      if(src in UI.loadScript.scripts){
+        var script = UI.loadScript.scripts[src];
+        if(script.state === 'fail'){
+          return new Promise(function(resolve,reject){
+            reject(script.scriptElement);
+          });
+        }else if(script.state === 'succes'){
+          return new Promise(function(resolve,reject){
+            resolve(script.scriptElement);
+          });
+        }else if(script.state === 'loading'){
+          return new Promise(function(resolve,reject){
+            script.queue.push([resolve,reject]);
+          });
+        }
+      }
+      return new Promise(function(realResolve,realReject){
+        UI.loadScript.scripts[src] = {
+          state:'loading',
+          queue:[],
+        };
+        var script = UI.loadScript.scripts[src];
+        function resolve(el){
+          script.state = 'succes';
+          script.scriptElement = el;
+          realResolve(el);
+          for (var i = 0; i < script.queue.length; i++) {
+            script.queue[i][0](el);
+          }
+        };
+        function reject(el){
+          script.state = 'fail';
+          script.scriptElement = el;
+          realReject(el);
+          for (var i = 0; i < script.queue.length; i++) {
+            script.queue[i][1](el);
+          }
+        };
         try{
           var scriptElement = document.createElement('script');
           var anotherScript = document.getElementsByTagName('script') [0];
