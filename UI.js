@@ -20,10 +20,8 @@ window.UI = (function (window) {
     * @return {Promise}
     */
     loadScript: function (src,testFn) {
-      console.log(src);
       return new Promise(function(resolve,reject){
         try{
-          console.log('a');
           var scriptElement = document.createElement('script');
           var anotherScript = document.getElementsByTagName('script') [0];
           scriptElement.type = 'text/javascript';
@@ -57,13 +55,10 @@ window.UI = (function (window) {
               reject(scriptElement);
             }
           }
-          console.log('b');
           let parentNode = anotherScript ? anotherScript.parentNode : document.head;
           anotherScript.parentNode.insertBefore(scriptElement, anotherScript);
           scriptElement.src = src;
-          console.log('c');
         }catch(err){
-          console.log('d');
           reject(err);
         }
       });
