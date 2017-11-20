@@ -26,7 +26,6 @@ h1{
 .downArrow:hover{
   bottom:5px;
   text-shadow:0 0 10px white;
-  background:rgba(128,128,128,0.1);
 }
 .frame{
   height:100%;
