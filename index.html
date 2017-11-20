@@ -5,13 +5,17 @@
     <link rel="stylesheet" href="/web/style.css"/>
   </head>
   <body>
-    <h1>UI.js</h1>
+    <div class="frame blackframe">
+      <h1>UI.Js</h1>
+      <span>&or;</span>
+    </div>
+    <div
     When you press the button the script loads the <b>Jquery</b> lib and changes the inner html of the body. 
     <button onclick="buttonClick()">Click Here!</button>
     <div id="Demo"></div>
     <script>
       buttonClick = function(){
-        UI().get('dom').get('element').fn(function(){console.log('break1')}).run({type:'input',parent:document.getElementById('Demo')})
+        UI().get('dom').get('element').run({type:'input',parent:document.getElementById('Demo')})
       }
     </script>
   </body>
