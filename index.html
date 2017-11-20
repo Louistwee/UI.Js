@@ -8,7 +8,7 @@
     <div id="Demo"></div>
     <script>
       buttonClick = function(){
-        UI().get('dom').get('element').run({type:'input',parent:document.getElementById('Demo')})
+        UI().get('dom').fn(function(){console.log('break1')}).get('element').run({type:'input',parent:document.getElementById('Demo')})
       }
     </script>
   </body>
