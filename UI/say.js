@@ -1,10 +1,6 @@
-UI.addSubObject({
-  name:'say',
-  mainFn:function(param){
-    alert(param.word);
-  },
-  //isConstructor:false,
-  properties:{
-    test:'hoi',
-  },
-});
+UI.say = {
+ say:function(param){
+   alert(param.word)
+   return this;
+ }, 
+}
