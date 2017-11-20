@@ -9,7 +9,7 @@ UI.dom.element = function(obj){
     obj = {
       $:obj,
     };
-  }else{
+  }else if(!obj.$){
     obj.$ = document.createElement(obj.type);
   }
   if(obj.parent){
@@ -20,7 +20,7 @@ UI.dom.element = function(obj){
 UI.dom.element.prototype.appendTo = function(parent){
   console.log(this);
   console.log(parent);
-  this.parent = parent.$ ? parent : UI.dom.element(parent);
+  this.parent = UI.dom.element(parent);
   this.parent.$.appendChild(this.$);
   console.log(this.parent);
   return this;
