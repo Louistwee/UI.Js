@@ -10,13 +10,13 @@
       <h1>UI.Js</h1>
       <div class="downArrow">&or;</div>
     </div>
-    <div
-    When you press the button the script loads the <b>Jquery</b> lib and changes the inner html of the body. 
-    <button onclick="buttonClick()">Click Here!</button>
-    <div id="Demo"></div>
+    <div class="frame yellowframe">
+      <button>Click to see the power of UI.Js!</button>
+      <div class="result" id="Demo1"></div>
+    </div>
     <script>
       buttonClick = function(){
-        UI().get('dom').get('element').run({type:'input',parent:document.getElementById('Demo')})
+        UI().get('dom').get('element').run({type:'input',parent:document.getElementById('Demo1')})
       }
     </script>
   </body>
