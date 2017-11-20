@@ -13,11 +13,11 @@ UI.dom.element = function(obj){
     obj.$ = document.createElement(obj.type);
   }
   if(obj.parent){
-    obj.parent.get('append').run(obj);
+    UI.dom.element.prototype.appendTo.call(obj,obj.parent);
   }
   return obj;
 };
-UI.dom.element.prototype.append = function(parent){
+UI.dom.element.prototype.appendTo = function(parent){
   this.parent = parent.$ ? parent : UI.dom(parent);
   this.parent.$.appendChild(this.$);
 };
