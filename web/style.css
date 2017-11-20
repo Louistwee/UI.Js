@@ -6,7 +6,7 @@ h1{
   font-weight:900;
   color:rgb(52, 152, 219);
   font-size:100px;
-  display:inline-block;
+  display:block;
   width:100%;
   text-shadow: 0px 0px 2px rgb(41, 128, 185);
   top:calc(50% - 110px);
@@ -31,10 +31,44 @@ h1{
   height:100%;
   margin:0px;
   display:block;
+  text-align:center;
+  display:block;
 }
 .blackframe{
-  position:relative;
-   background:rgb(10, 10, 10);
+  background:rgb(10, 10, 10);
+}
+.green-frame{
+  background:rgb(39, 174, 96);
+}
+button{
+  border-radius:5px;
+  border:2px solid rgb(41, 128, 185);
+  background-color:rgb(52, 152, 219);
+  color:white;
+  box-shadow:0 0 5px gray;
+  font-size:20px;
+  padding:20px;
+  margin:50px;
+  transition-duration: 0.2s;
+}
+.result{
+  background:white;
+  width:500px;
+  height:100px;
+  box-shadow:10px 10px 10px rgb(39, 174, 96) inset, -10px -10px 10px rgb(39, 174, 96) inset;
+  display:inline-block;
+  padding:30px;
+}
+.result::before{
+  content:'Result';
+  color:black;
+  padding:30px
+}
+button:hover{
+  box-shadow:0 0 10px gray;
+}
+button:active{
+  box-shadow:0 0 0px gray;
 }
 body, html{
   padding:0px;
