@@ -18,7 +18,11 @@ UI.dom.element = function(obj){
   return obj;
 };
 UI.dom.element.prototype.appendTo = function(parent){
-  this.parent = parent.$ ? parent : UI.dom(parent);
+  console.log(this);
+  console.log(parent);
+  this.parent = parent.$ ? parent : UI.dom.element(parent);
   this.parent.$.appendChild(this.$);
+  console.log(this.parent);
+  return this;
 };
 UI.dom.element.prototype.__proto__ = UI.dom.prototype;
