@@ -10,7 +10,7 @@ UI.dom.element = function(obj){
       $:obj,
     };
   }else{
-    obj.$ = document.createElement(obj);
+    obj.$ = document.createElement(obj.type);
   }
   if(obj.parent){
     obj.parent.get('append').run(obj);
