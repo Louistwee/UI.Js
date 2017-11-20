@@ -13,8 +13,20 @@ h1{
   position:absolute;
 }
 .downArrow{
+  font-size:50px;
   bottom:10px;
   position:absolute;
+  color:white;
+  width:100%;
+  text-align:center;
+  text-shadow:0 0 3px white;
+  transition-duration:0.1s;
+  cursor:pointer;
+}
+.downArrow:hover{
+  bottom:5px;
+  text-shadow:0 0 10px white;
+  background:rgba(128,128,128,0.1);
 }
 .frame{
   height:100%;
