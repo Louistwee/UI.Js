@@ -148,7 +148,12 @@ window.UI = (function (window) {
             return false;
           });
           loadScriptPromsie.then(function(){
-            resolve(obj[subObjectName])
+            if(obj[subObjectName]){
+              obj[subObjectName].path = obj.path + '/' + subObjectName;
+              resolve(obj[subObjectName])
+            }else{
+              reject(obj)
+            }
           });
           loadScriptPromsie['catch'](function(){
             reject(obj);
