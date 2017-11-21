@@ -27,19 +27,6 @@ h1{
   bottom:5px;
   text-shadow:0 0 10px white;
 }
-.frame{
-  height:100%;
-  margin:0px;
-  display:block;
-  text-align:center;
-  display:block;
-}
-.blackframe{
-  background:rgb(10, 10, 10);
-}
-.green-frame{
-  background:rgb(39, 174, 96);
-}
 button{
   border-radius:5px;
   border:2px solid rgb(41, 128, 185);
@@ -51,19 +38,6 @@ button{
   margin:50px;
   transition-duration: 0.2s;
 }
-.result{
-  background:white;
-  width:500px;
-  height:100px;
-  box-shadow:10px 10px 10px rgb(39, 174, 96) inset, -10px -10px 10px rgb(39, 174, 96) inset;
-  display:inline-block;
-  padding:30px;
-}
-.result::before{
-  content:'Result';
-  color:black;
-  padding:30px
-}
 button:hover{
   box-shadow:0 0 10px gray;
 }
@@ -73,4 +47,40 @@ button:active{
 body, html{
   padding:0px;
   margin:0px;
+}
+.front-frame{
+  height:100%;
+  margin:0px;
+  display:block;
+  text-align:center;
+  display:block;
+  background:rgb(10, 10, 10);
+}
+.demobox{
+  padding:100px;
+  background:rgb(250, 250, 250);
+  text-align:left;
+  height:200px;
+}
+.code{
+  font-family: Lucida Console;
+  background:rgb(10, 10, 10);
+  color:white;
+  padding:20px;
+  border-left:3px solid rgb(41, 128, 185);
+}
+.demo{
+  height:200px;
+  border:0;
+  overflow:hidden;
+}
+.demobox .code, .demobox .demo{
+  width:40%;
+  display:block;
+}
+.right{
+  float:right;
+}
+.left{
+  float:left;
 }
