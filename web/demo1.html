@@ -10,20 +10,20 @@
     <script>
       function action(){
         var log = document.getElementById('log');
-        log.innerHTML = 'loading UI.dom';
+        log.innerHTML += '<br>loading UI.dom';
         UI()
           .get('dom')
           .fn(function(obj,resolve){
-            log.innerHTML = 'loading UI.dom.element';
+            log.innerHTML += '<br>loading UI.dom.element';
             resolve(obj);
           })
           .get('element').fn(function(obj,resolve){
-            log.innerHTML = 'UI.dom.element loaded';
+            log.innerHTML += '<br>UI.dom.element loaded';
             resolve(obj);
           })
           .run({type:'input',parent:document.getElementById('demo')})
           .fn(function(obj,resolve){
-            log.innerHTML = 'input appended';
+            log.innerHTML += '<br>input appended';
             resolve(obj);
           })
       }
