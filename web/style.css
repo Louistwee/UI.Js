@@ -84,3 +84,18 @@ body, html{
 .left{
   float:left;
 }
+.c-fn{
+  color:rgb(41, 128, 185);
+}
+.c-str{
+  color:rgb(39, 174, 96);
+}
+.c-s{
+  color:rgb(22, 160, 133);
+}
+.c-d{
+  color:rgb(230, 126, 34);
+}
+.c-obj{
+  color:rgb(241, 196, 15);
+}
