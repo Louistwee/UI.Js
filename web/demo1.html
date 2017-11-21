@@ -5,10 +5,27 @@
   </head>
   <body>
     <button onclick="action()" >Click to see the power of UI.Js!</button><br>
+    <code id="log"></code>
     <div id="demo" class="demo-box"></div>
     <script>
       function action(){
-        UI().get('dom').get('element').run({type:'input',parent:document.getElementById('demo')})
+        var log = document.getElementById('log');
+        log.innerHTML = 'loading UI.dom';
+        UI()
+          .get('dom')
+          .fn(function(obj,resolve){
+            log.innerHTML = 'loading UI.dom.element';
+            resolve(obj);
+          })
+          .get('element').fn(function(obj,resolve){
+            log.innerHTML = 'UI.dom.element loaded';
+            resolve(obj);
+          })
+          .run({type:'input',parent:document.getElementById('demo')})
+          .fn(function(obj,resolve){
+            log.innerHTML = 'input appended';
+            resolve(obj);
+          })
       }
     </script>
   </body>
