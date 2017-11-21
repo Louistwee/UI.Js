@@ -60,7 +60,7 @@ body, html{
   padding:100px;
   background:rgb(250, 250, 250);
   text-align:left;
-  height:200px;
+  height:250px;
 }
 .code{
   font-family: Lucida Console;
@@ -70,9 +70,13 @@ body, html{
   border-left:3px solid rgb(41, 128, 185);
 }
 .demo{
-  height:200px;
+  height:250px;
   border:0;
   overflow:hidden;
+  background:white;
+  border:5px solid rgb(127, 140, 141);
+  border-radius:5px;
+  padding:10px;
 }
 .demobox .code, .demobox .demo{
   width:40%;
