@@ -21,7 +21,7 @@
             log.innerHTML = 'UI.dom.element loaded';
             resolve(obj);
           })
-          .run({type:'input',parent:UI.get('dom').get('element').run(document.getElementById('demo'))})
+          .run({type:'input',parent:UI().get('dom').get('element').run(document.getElementById('demo'))})
           .fn(function(obj,resolve){
             log.innerHTML = 'input appended';
             resolve(obj);
