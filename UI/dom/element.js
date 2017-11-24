@@ -21,6 +21,7 @@ UI.dom.element = function(obj){
       UI.dom.element.prototype.appendTo.call(obj,obj.parent);
     }
   }
+  obj.__proto__ = UI.dom.element.prototype;
   return obj;
 };
 UI.dom.element.prototype.appendTo = function(parent){
