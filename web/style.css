@@ -72,11 +72,6 @@ body, html{
 .demo{
   height:250px;
   border:0;
-  overflow:hidden;
-  background:white;
-  border:5px solid rgb(127, 140, 141);
-  border-radius:5px;
-  padding:10px;
 }
 .demobox .code, .demobox .demo{
   width:40%;
