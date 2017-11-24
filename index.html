@@ -12,13 +12,16 @@
     </div>
     <div class="demobox">
       <div class="code left">
-        UI()
+        UI()<br>
         &nbsp;&nbsp;.get('dom')<br>
         &nbsp;&nbsp;.get('element')<br>
         &nbsp;&nbsp;.run({<br>
         &nbsp;&nbsp;&nbsp;&nbsp;type:'input',<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;parent:UI().get('dom').get('element').run(document.getElementById('demo'))<br>
-        &nbsp;&nbsp;})
+        &nbsp;&nbsp;&nbsp;&nbsp;parent:UI()<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.get('dom')<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.get('element')<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.run(document.getElementById('demo'))<br>
+        &nbsp;&nbsp;})<br>
       </div>
       <iframe id="Demo1" class="demo right" src="web/demo1.html"></iframe>
     </div>
