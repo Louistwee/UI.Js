@@ -13,16 +13,19 @@ UI.dom.element = function(obj){
     obj.$ = document.createElement(obj.type);
   }
   if(obj.parent){
-    UI.dom.element.prototype.appendTo.call(obj,obj.parent);
+    if(obj.parent.then){
+      obj.parent.then(function(parent){
+        UI.dom.element.prototype.appendTo.call(obj,parent);
+      });
+    }else{
+      UI.dom.element.prototype.appendTo.call(obj,obj.parent);
+    }
   }
   return obj;
 };
 UI.dom.element.prototype.appendTo = function(parent){
-  console.log(this);
-  console.log(parent);
-  this.parent = UI.dom.element(parent);
+  this.parent = parent;
   this.parent.$.appendChild(this.$);
-  console.log(this.parent);
   return this;
 };
 UI.dom.element.prototype.__proto__ = UI.dom.prototype;
