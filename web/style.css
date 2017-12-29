@@ -35,7 +35,8 @@ button{
   box-shadow:0 0 5px gray;
   font-size:20px;
   padding:20px;
-  margin:50px;
+  margin:0px;
+  margin-bottom:10px;
   transition-duration: 0.2s;
 }
 button:hover{
@@ -97,4 +98,12 @@ body, html{
 }
 .c-obj{
   color:rgb(241, 196, 15);
+}
+.log-line{
+  display: block;
+  font-family: lucida console;
+}
+.log-line::before{
+  content:'>>  ';
+  color:grey;
 }
