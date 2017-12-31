@@ -21,7 +21,7 @@
             log.innerHTML += '<span class="log-line">UI.dom.element loaded</span>';
             resolve(obj);
           })
-          .run({type:'input',parent:UI().get('dom').get('element').run(document.getElementById('demo'))})
+          .run({type:'input',parent:UI().get('dom').get('element').run({$:document.getElementById('demo')})})
           .fn(function(obj,resolve){
             log.innerHTML += '<span class="log-line">input appended</span>';
             resolve(obj);
